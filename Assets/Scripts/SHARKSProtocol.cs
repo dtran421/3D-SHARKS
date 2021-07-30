@@ -6,7 +6,9 @@ public class SHARKSProtocol : MonoBehaviour
 {
     public Transform self;
     public Transform target;
-    public float distanceToMove;
+
+    public float centerRuleDistance;
+    public float dispersionRuleDistance;
     public float delta;
     public float epsilon;
 
@@ -31,9 +33,9 @@ public class SHARKSProtocol : MonoBehaviour
         if (delta - dist > epsilon)
         {
             Debug.Log("move backwards");
-            selfPos.x += (distVector.x > 0 ? -1 : 1) * distanceToMove * Mathf.Cos(self.rotation.y) * Time.deltaTime;
-            selfPos.y += (distVector.y > 0 ? -1 : 1) * distanceToMove * Mathf.Cos(self.rotation.z) * Time.deltaTime;
-            selfPos.z += (distVector.z > 0 ? -1 : 1) * distanceToMove * Mathf.Cos(self.rotation.x) * Time.deltaTime;
+            selfPos.x += (distVector.x > 0 ? -1 : 1) * centerRuleDistance * Mathf.Cos(self.rotation.y) * Time.deltaTime;
+            selfPos.y += (distVector.y > 0 ? -1 : 1) * centerRuleDistance * Mathf.Cos(self.rotation.z) * Time.deltaTime;
+            selfPos.z += (distVector.z > 0 ? -1 : 1) * centerRuleDistance * Mathf.Cos(self.rotation.x) * Time.deltaTime;
             // collision detection
             Collider[] hitColliders = Physics.OverlapSphere(selfPos, transform.localScale.z);
             if (hitColliders.Length <= 1)
@@ -45,9 +47,9 @@ public class SHARKSProtocol : MonoBehaviour
         if (delta - dist < -epsilon)
         {
             Debug.Log("move forwards");
-            selfPos.x += (distVector.x > 0 ? 1 : -1) * distanceToMove * Mathf.Cos(self.rotation.y) * Time.deltaTime;
-            selfPos.y += (distVector.y > 0 ? 1 : -1) * distanceToMove * Mathf.Cos(self.rotation.z) * Time.deltaTime;
-            selfPos.z += (distVector.z > 0 ? 1 : -1) * distanceToMove * Mathf.Cos(self.rotation.x) * Time.deltaTime;
+            selfPos.x += (distVector.x > 0 ? 1 : -1) * centerRuleDistance * Mathf.Cos(self.rotation.y) * Time.deltaTime;
+            selfPos.y += (distVector.y > 0 ? 1 : -1) * centerRuleDistance * Mathf.Cos(self.rotation.z) * Time.deltaTime;
+            selfPos.z += (distVector.z > 0 ? 1 : -1) * centerRuleDistance * Mathf.Cos(self.rotation.x) * Time.deltaTime;
             // collision detection
             Collider[] hitColliders = Physics.OverlapSphere(selfPos, transform.localScale.z);
             Debug.Log(transform.position);
@@ -87,14 +89,17 @@ public class SHARKSProtocol : MonoBehaviour
         Transform nearestNeighbor = FindNearestNeighbor(selfPos);
         transform.LookAt(nearestNeighbor);
 
-        transform.RotateAround(selfPos, transform.right, 180 + nearestNeighbor.rotation.z * Time.deltaTime);
-        transform.RotateAround(selfPos, transform.forward, 180 + nearestNeighbor.rotation.x * Time.deltaTime);
+        // pitch
+        transform.RotateAround(selfPos, transform.right, 180 + nearestNeighbor.rotation.x * Time.deltaTime);
+        // roll
+        transform.RotateAround(selfPos, transform.forward, 180 + nearestNeighbor.rotation.z * Time.deltaTime);
+        // yaw
         transform.RotateAround(selfPos, transform.up, 180 + nearestNeighbor.rotation.y * Time.deltaTime);
         
         Vector3 distVector = new Vector3(nearestNeighbor.position.x - selfPos.x, nearestNeighbor.position.y - selfPos.y, nearestNeighbor.position.z - selfPos.z);
-        selfPos.x += (distVector.x > 0 ? 1 : -1) * distanceToMove * Mathf.Cos(self.rotation.y) * Time.deltaTime;
-        selfPos.y += (distVector.y > 0 ? 1 : -1) * distanceToMove * Mathf.Cos(self.rotation.z) * Time.deltaTime;
-        selfPos.z += (distVector.z > 0 ? 1 : -1) * distanceToMove * Mathf.Cos(self.rotation.x) * Time.deltaTime;
+        selfPos.x += (distVector.x > 0 ? 1 : -1) * dispersionRuleDistance * Mathf.Cos(self.rotation.y) * Time.deltaTime;
+        selfPos.y += (distVector.y > 0 ? 1 : -1) * dispersionRuleDistance * Mathf.Cos(self.rotation.z) * Time.deltaTime;
+        selfPos.z += (distVector.z > 0 ? 1 : -1) * dispersionRuleDistance * Mathf.Cos(self.rotation.x) * Time.deltaTime;
 
         Collider[] hitColliders = Physics.OverlapSphere(selfPos, transform.localScale.z);
         if (hitColliders.Length <= 1)

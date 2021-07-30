@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   self: {fileID: 4967301834845743033}
   target: {fileID: 883718542469670710, guid: 5358867d339c83144beb4b8468fa3602, type: 3}
-  distanceToMove: 1
+  centerRuleDistance: 4
+  dispersionRuleDistance: 3
   delta: 3
   epsilon: 0.1
