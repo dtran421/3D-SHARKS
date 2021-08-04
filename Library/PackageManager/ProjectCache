@@ -5,29 +5,29 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637630981228038193
-    m_Hash: 1506649518
+      ticks: 637636155482505068
+    m_Hash: 553855661
   m_LockFileStatus:
     m_FilePath: C:/Users/duket/OneDrive/Documents/NSF REU HUMANS MOVE/3D SHARKS/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637630981342348189
-    m_Hash: 1351744802
+      ticks: 637636155760030581
+    m_Hash: 1920910441
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
   m_LocalFileStatus: []
 m_ProjectPath: C:/Users/duket/OneDrive/Documents/NSF REU HUMANS MOVE/3D SHARKS/Packages
-m_EditorVersion: 2021.1.15f1 (e767a7370072)
+m_EditorVersion: 2021.1.16f1 (5fa502fca597)
 m_ResolvedPackages:
-- packageId: com.unity.collab-proxy@1.5.7
+- packageId: com.unity.collab-proxy@1.7.1
   testable: 0
   isDirectDependency: 1
-  version: 1.5.7
+  version: 1.7.1
   source: 1
-  resolvedPath: C:\Users\duket\OneDrive\Documents\NSF REU HUMANS MOVE\3D SHARKS\Library\PackageCache\com.unity.collab-proxy@1.5.7
+  resolvedPath: C:\Users\duket\OneDrive\Documents\NSF REU HUMANS MOVE\3D SHARKS\Library\PackageCache\com.unity.collab-proxy@1.7.1
   assetPath: Packages/com.unity.collab-proxy
   name: com.unity.collab-proxy
   displayName: Version Control
@@ -77,8 +77,6 @@ m_ResolvedPackages:
     - 2.1.0-preview.5
     - 2.1.0-preview.6
     compatible:
-    - 1.5.7
-    - 1.6.0
     - 1.7.1
     - 2.0.0-preview.6
     - 2.0.0-preview.8
@@ -90,7 +88,7 @@ m_ResolvedPackages:
     - 2.1.0-preview.3
     - 2.1.0-preview.5
     - 2.1.0-preview.6
-    verified: 1.5.7
+    verified: 1.7.1
   dependencies:
   - name: com.unity.nuget.newtonsoft-json
     version: 2.0.0
@@ -98,16 +96,19 @@ m_ResolvedPackages:
   - name: com.unity.nuget.newtonsoft-json
     version: 2.0.0
   keywords:
-  - vsc
-  - version
-  - control
-  - collab
-  - collaboration
-  - collaborate
-  - teams
-  - team
-  - cloud
   - backup
+  - cloud
+  - collab
+  - collaborate
+  - collaboration
+  - control
+  - plastic
+  - plasticscm
+  - source
+  - team
+  - teams
+  - version
+  - vcs
   registry:
     id: main
     name: 
@@ -120,16 +121,16 @@ m_ResolvedPackages:
   entitlements:
     isAllowed: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 637551413290000000
+  datePublishedTicks: 637616921650000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/com.unity.cloud.collaborate.git
-    revision: f079d307344f568804d3ea6d781013135e614e45
+    revision: 30ef59f552633de9ff0401db4e73ac89982d4ac0
     path: 
   unityLifecycle:
-    version: 1.5.7
+    version: 1.7.1
     nextVersion: 
 - packageId: com.unity.ide.rider@3.0.7
   testable: 0
@@ -600,12 +601,12 @@ m_ResolvedPackages:
   unityLifecycle:
     version: 3.0.6
     nextVersion: 
-- packageId: com.unity.timeline@1.5.5
+- packageId: com.unity.timeline@1.5.6
   testable: 0
   isDirectDependency: 1
-  version: 1.5.5
+  version: 1.5.6
   source: 1
-  resolvedPath: C:\Users\duket\OneDrive\Documents\NSF REU HUMANS MOVE\3D SHARKS\Library\PackageCache\com.unity.timeline@1.5.5
+  resolvedPath: C:\Users\duket\OneDrive\Documents\NSF REU HUMANS MOVE\3D SHARKS\Library\PackageCache\com.unity.timeline@1.5.6
   assetPath: Packages/com.unity.timeline
   name: com.unity.timeline
   displayName: Timeline
@@ -686,7 +687,6 @@ m_ResolvedPackages:
     - 1.6.0-pre.5
     - 1.6.1
     compatible:
-    - 1.5.5
     - 1.5.6
     - 1.6.0-pre.1
     - 1.6.0-pre.3
@@ -730,16 +730,16 @@ m_ResolvedPackages:
   entitlements:
     isAllowed: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 637557616440000000
+  datePublishedTicks: 637613662510000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: https://github.cds.internal.unity3d.com/unity/com.unity.timeline.git
-    revision: 4bb067f24973c7cfa1e4a453615e43083ce6855d
+    revision: bba45362fa74fde39bfa14d05688da527254b39f
     path: 
   unityLifecycle:
-    version: 1.5.5
+    version: 1.5.6
     nextVersion: 
 - packageId: com.unity.ugui@1.0.0
   testable: 0

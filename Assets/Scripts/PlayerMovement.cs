@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("move up!");
             playerPosition.y += movementDistance * movementSpeed * Time.deltaTime;
         }
-        if (Input.GetKey("left shift") || Input.GetKey("right shift")) {
+        if (Input.GetKey("left shift")) {
             Debug.Log("move down!"); 
             playerPosition.y -= movementDistance * movementSpeed * Time.deltaTime;
         }

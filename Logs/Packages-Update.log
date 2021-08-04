@@ -53,3 +53,12 @@ Update Mode: updateDependencies
 
 The following packages were updated:
   com.unity.test-framework from version 1.1.26 to 1.1.27
+
+=== Tue Aug  3 15:25:48 2021
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.collab-proxy from version 1.5.7 to 1.7.1
+  com.unity.timeline from version 1.5.5 to 1.5.6
