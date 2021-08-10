@@ -724,6 +724,42 @@
       <Project>{223C2491-A3B9-FB74-396A-A07013F0D778}</Project>
       <Name>Unity.VisualScripting.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="UnityEngine.SpatialTracking.csproj">
+      <Project>{4351F985-32AF-4E9E-3CEC-05A56D787BF6}</Project>
+      <Name>UnityEngine.SpatialTracking</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Management.csproj">
+      <Project>{085F2F56-A743-AF04-82A9-B302B03CDE46}</Project>
+      <Name>Unity.XR.Management</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Management.Editor.csproj">
+      <Project>{E5949EE4-4E64-256A-EFA3-7657669CAA77}</Project>
+      <Name>Unity.XR.Management.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Subsystem.Registration.csproj">
+      <Project>{55BE361E-8472-C7CF-EE50-3F1DB57288F4}</Project>
+      <Name>Unity.Subsystem.Registration</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.XR.LegacyInputHelpers.csproj">
+      <Project>{405447E7-6A4D-DFA4-E382-8FDBFDBEBA17}</Project>
+      <Name>UnityEngine.XR.LegacyInputHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.XR.LegacyInputHelpers.csproj">
+      <Project>{FA102F64-AB5E-540D-B168-B902EDEF3C57}</Project>
+      <Name>UnityEditor.XR.LegacyInputHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.SpatialTracking.csproj">
+      <Project>{963778F0-C448-73F8-F9E6-C61AC2ABDA2D}</Project>
+      <Name>UnityEditor.SpatialTracking</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Oculus.Editor.csproj">
+      <Project>{38D4063F-96DE-9BA5-7065-07C231D66514}</Project>
+      <Name>Unity.XR.Oculus.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Oculus.csproj">
+      <Project>{3C8B0026-8FD1-5DFB-B74A-339D50CDB0B6}</Project>
+      <Name>Unity.XR.Oculus</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -1,5 +1,6 @@
 Library\Bee\artifacts\movedfrom\Unity.PlasticSCM.Editor.ref.dll_2700729535869450326.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.Rider.Editor.ref.dll_11193012430168537007.movedfrom
+Library\Bee\artifacts\movedfrom\Unity.Subsystem.Registration.ref.dll_8030987906518691830.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.TextMeshPro.Editor.ref.dll_1557689244747631494.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.TextMeshPro.ref.dll_9557809654341403355.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.Timeline.Editor.ref.dll_953984715949700626.movedfrom
@@ -12,8 +13,16 @@ Library\Bee\artifacts\movedfrom\Unity.VisualScripting.Flow.ref.dll_2192924542065
 Library\Bee\artifacts\movedfrom\Unity.VisualScripting.State.Editor.ref.dll_16156761413022531439.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.VisualScripting.State.ref.dll_15643080368937755746.movedfrom
 Library\Bee\artifacts\movedfrom\Unity.VisualStudio.Editor.ref.dll_4221946230532187309.movedfrom
+Library\Bee\artifacts\movedfrom\Unity.XR.Management.Editor.ref.dll_8910596525326941778.movedfrom
+Library\Bee\artifacts\movedfrom\Unity.XR.Management.ref.dll_4633008586845950799.movedfrom
+Library\Bee\artifacts\movedfrom\Unity.XR.Oculus.Editor.ref.dll_17036579135640496812.movedfrom
+Library\Bee\artifacts\movedfrom\Unity.XR.Oculus.ref.dll_4836280588112914773.movedfrom
+Library\Bee\artifacts\movedfrom\UnityEditor.SpatialTracking.ref.dll_9876933188110947312.movedfrom
 Library\Bee\artifacts\movedfrom\UnityEditor.UI.ref.dll_5519394401220875509.movedfrom
+Library\Bee\artifacts\movedfrom\UnityEditor.XR.LegacyInputHelpers.ref.dll_4544929517527792765.movedfrom
+Library\Bee\artifacts\movedfrom\UnityEngine.SpatialTracking.ref.dll_1536532929567987477.movedfrom
 Library\Bee\artifacts\movedfrom\UnityEngine.UI.ref.dll_648142665722821984.movedfrom
+Library\Bee\artifacts\movedfrom\UnityEngine.XR.LegacyInputHelpers.ref.dll_18420402004878937986.movedfrom
 Library\Bee\artifacts\movedfrom\UnityEditor.CoreModule.dll_16629505410159896827.movedfrom
 Library\Bee\artifacts\movedfrom\UnityEditor.DeviceSimulatorModule.dll_7974857110285644470.movedfrom
 Library\Bee\artifacts\movedfrom\UnityEditor.dll_17533237213930377130.movedfrom

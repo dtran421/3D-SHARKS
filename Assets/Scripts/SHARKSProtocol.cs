@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // [ExecuteInEditMode]
@@ -17,26 +15,30 @@ public class SHARKSProtocol : MonoBehaviour
     public float delta;
     public float epsilon;
 
-    private bool inStabilityRegion = false;
-    private bool detectedAdversary = false;
+    private bool hasDetectedAdversary = false;
 
-    // Update is called once per frame
+    void Start()
+    {
+        Vector3 randomPos = new Vector3((Random.value + 10f) * 2f, (Random.value + 10f) * 2f, (Random.value + 10f) * 2f);
+        self.position = randomPos;
+    }
+
     void Update()
     {
         Vector3 selfPos = transform.position;
         Vector3 targetPos = target.position;
 
-        float absoluteDistToTarget = Vector3.Distance(targetPos, selfPos);
-        // Debug.Log(absoluteDistToTarget);
-        
-        CenterRule(selfPos, absoluteDistToTarget);
-        selfPos = transform.position;
-        DispersionRule(selfPos);
+        float distToTarget = Vector3.Distance(targetPos, selfPos);
+        // Debug.Log(distToTarget);
 
-        selfPos = transform.position;
-        if (inStabilityRegion && IsNearestObjectAdversarial(selfPos) && detectedAdversary)
+        if (InsideStabilityRegion(distToTarget) && IsNearestObjectAdversarial(selfPos) && DetectedAdversary())
         {
             DynamicDistanceEjection(selfPos);
+        } else
+        {
+            CenterRule(selfPos, distToTarget);
+            selfPos = transform.position;
+            DispersionRule(selfPos);
         }
     }
 
@@ -53,18 +55,7 @@ public class SHARKSProtocol : MonoBehaviour
         float minDist = Mathf.Infinity;
         foreach (GameObject UAV in UAVs)
         {
-            if (UAV.name == "PlayerUAV")
-            {
-                if (InsideStabilityRegion(Vector3.Distance(UAV.transform.position, target.position)))
-                {
-                    detectedAdversary = true;
-                }
-                else
-                {
-                    detectedAdversary = false;
-                }
-            }
-            else if (UAV.name != self.name)
+            if (UAV.name != self.name)
             {
                 float dist = Vector3.Distance(selfPos, UAV.transform.position);
                 if (dist < minDist)
@@ -75,7 +66,12 @@ public class SHARKSProtocol : MonoBehaviour
             }
         }
 
-        return nearestObject;
+        return nearestObject.name == "PlayerUAV";
+    }
+
+    bool DetectedAdversary()
+    {
+        return InsideStabilityRegion(Vector3.Distance(GameObject.Find("PlayerUAV").transform.position, target.position));
     }
 
     void CenterRule(Vector3 selfPos, float dist)
@@ -92,7 +88,7 @@ public class SHARKSProtocol : MonoBehaviour
             selfPos.z += centerRuleDistance * -transform.forward.z * movementSpeed * Time.deltaTime;
 
             // collision detection
-            Collider[] hitColliders = Physics.OverlapSphere(selfPos, transform.localScale.z);
+            Collider[] hitColliders = Physics.OverlapSphere(selfPos, transform.localScale.z / 2);
             if (hitColliders.Length <= 1)
             {
                 shouldMove = true;
@@ -117,11 +113,6 @@ public class SHARKSProtocol : MonoBehaviour
         {
             transform.position = selfPos;
             Debug.DrawLine(selfPos, target.position, Color.white);
-        }
-        
-        if (InsideStabilityRegion(dist))
-        {
-            inStabilityRegion = true;
         }
     }
 
@@ -165,7 +156,8 @@ public class SHARKSProtocol : MonoBehaviour
         if (selfPos.y > target.position.y)
         {
             transform.RotateAround(selfPos, transform.right, -dispersionTilt);
-        } else
+        }
+        else
         {
             transform.RotateAround(selfPos, transform.right, dispersionTilt);
         }
@@ -186,7 +178,7 @@ public class SHARKSProtocol : MonoBehaviour
             transform.position = selfPos;
         }
     }
-     
+
     float CalculateIdealDistance()
     {
         GameObject[] UAVs = GameObject.FindGameObjectsWithTag("UAV");
@@ -227,18 +219,19 @@ public class SHARKSProtocol : MonoBehaviour
 
     void DynamicDistanceEjection(Vector3 selfPos)
     {
-        // Debug.Log("eject!");
+        Debug.Log("eject!");
         transform.LookAt(target);
 
         float ejectDistance = delta / 2 * Mathf.Pow(CalculateError(), 1 / 4);
-        selfPos.x += ejectDistance * transform.forward.x * movementSpeed * Time.deltaTime;
-        selfPos.y += ejectDistance * transform.forward.y * movementSpeed * Time.deltaTime;
-        selfPos.z += ejectDistance * transform.forward.z * movementSpeed * Time.deltaTime;
+        selfPos.x += ejectDistance * -transform.forward.x * movementSpeed * Time.deltaTime;
+        selfPos.y += ejectDistance * -transform.forward.y * movementSpeed * Time.deltaTime;
+        selfPos.z += ejectDistance * -transform.forward.z * movementSpeed * Time.deltaTime;
 
         // collision detection
         Collider[] hitColliders = Physics.OverlapSphere(selfPos, transform.localScale.z / 2);
+        Debug.Log(hitColliders.Length);
         if (hitColliders.Length <= 1)
-        { 
+        {
             transform.position = selfPos;
             Debug.DrawLine(selfPos, target.position, Color.white);
         }
