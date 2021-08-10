@@ -12,10 +12,12 @@ public class SHARKSProtocol : MonoBehaviour
 
     public float dispersionRotation;
     public float dispersionTilt;
-    public float delta;
-    public float epsilon;
+    public float delta; // radius
+    public float epsilon; // radius error (tolerance)
 
-    private bool hasDetectedAdversary = false;
+    public float deltaThreshold;
+    public float gamma; // radius adaptation increment
+    private float adversarialDistToTarget;
 
     void Start()
     {
@@ -31,9 +33,25 @@ public class SHARKSProtocol : MonoBehaviour
         float distToTarget = Vector3.Distance(targetPos, selfPos);
         // Debug.Log(distToTarget);
 
-        if (InsideStabilityRegion(distToTarget) && IsNearestObjectAdversarial(selfPos) && DetectedAdversary())
+        bool approachingAdversary = false;
+        Collider[] hitColliders = Physics.OverlapSphere(selfPos, transform.localScale.z);
+        foreach (Collider collider in hitColliders)
         {
-            DynamicDistanceEjection(selfPos);
+            if (collider.gameObject.name == "PlayerUAV")
+            {
+                approachingAdversary = true;
+            }
+        }
+        if (InsideStabilityRegion(distToTarget, epsilon) && IsNearestObjectAdversarial(selfPos) && approachingAdversary)
+        {
+            if (delta <= deltaThreshold)
+            {
+                float direction = adversarialDistToTarget - distToTarget > 0 ? 1 : -1;
+                DynamicDistanceEjection(selfPos, direction);
+            } else
+            {
+                AdaptDelta(distToTarget);
+            }
         } else
         {
             CenterRule(selfPos, distToTarget);
@@ -42,9 +60,9 @@ public class SHARKSProtocol : MonoBehaviour
         }
     }
 
-    bool InsideStabilityRegion(float distToTarget)
+    bool InsideStabilityRegion(float distToTarget, float tolerance)
     {
-        return distToTarget <= delta + epsilon && distToTarget >= delta - epsilon;
+        return distToTarget <= delta + tolerance && distToTarget >= delta - tolerance;
     }
 
     bool IsNearestObjectAdversarial(Vector3 selfPos)
@@ -67,11 +85,6 @@ public class SHARKSProtocol : MonoBehaviour
         }
 
         return nearestObject.name == "PlayerUAV";
-    }
-
-    bool DetectedAdversary()
-    {
-        return InsideStabilityRegion(Vector3.Distance(GameObject.Find("PlayerUAV").transform.position, target.position));
     }
 
     void CenterRule(Vector3 selfPos, float dist)
@@ -170,10 +183,6 @@ public class SHARKSProtocol : MonoBehaviour
         if (hitColliders.Length <= 1)
         {
             // Debug.Log("disperse");
-            /* Debug.DrawRay(transform.position, dispersionRuleDistance * transform.forward.x * transform.TransformDirection(Vector3.right), Color.red);
-            Debug.DrawRay(transform.position, dispersionRuleDistance * transform.forward.y * transform.TransformDirection(Vector3.up), Color.green);
-            Debug.DrawRay(transform.position, dispersionRuleDistance * transform.forward.z * transform.TransformDirection(Vector3.forward), Color.blue);
-            */
             Debug.DrawRay(transform.position, new Vector3(dispersionRuleDistance * transform.forward.x * movementSpeed, dispersionRuleDistance * transform.forward.y * movementSpeed, dispersionRuleDistance * transform.forward.z * movementSpeed), Color.red);
             transform.position = selfPos;
         }
@@ -217,23 +226,31 @@ public class SHARKSProtocol : MonoBehaviour
         return Mathf.Abs(CalculateIdealDistance() - averageDistanceBetweenAgents);
     }
 
-    void DynamicDistanceEjection(Vector3 selfPos)
+    void DynamicDistanceEjection(Vector3 selfPos, float direction)
     {
         Debug.Log("eject!");
         transform.LookAt(target);
 
         float ejectDistance = delta / 2 * Mathf.Pow(CalculateError(), 1 / 4);
-        selfPos.x += ejectDistance * -transform.forward.x * movementSpeed * Time.deltaTime;
-        selfPos.y += ejectDistance * -transform.forward.y * movementSpeed * Time.deltaTime;
-        selfPos.z += ejectDistance * -transform.forward.z * movementSpeed * Time.deltaTime;
+        selfPos.x += direction * ejectDistance * transform.forward.x * movementSpeed * Time.deltaTime;
+        selfPos.y += ejectDistance * transform.forward.y * movementSpeed * Time.deltaTime;
+        selfPos.z += direction * ejectDistance * transform.forward.z * movementSpeed * Time.deltaTime;
 
         // collision detection
         Collider[] hitColliders = Physics.OverlapSphere(selfPos, transform.localScale.z / 2);
-        Debug.Log(hitColliders.Length);
         if (hitColliders.Length <= 1)
         {
             transform.position = selfPos;
             Debug.DrawLine(selfPos, target.position, Color.white);
+        }
+    }
+
+    void AdaptDelta(float distToTarget)
+    {
+        Debug.Log("adapt!");
+        if (distToTarget > transform.localScale.z * deltaThreshold)
+        {
+            delta -= gamma;
         }
     }
 }

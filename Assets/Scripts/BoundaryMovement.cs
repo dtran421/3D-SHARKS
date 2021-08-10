@@ -7,13 +7,17 @@ public class BoundaryMovement : MonoBehaviour
     public Transform target;
     public GameObject UAV;
 
+    private void Start()
+    {
+        GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        SHARKSProtocol sharksProtocolScript = UAV.GetComponent<SHARKSProtocol>();
-        float diameter = sharksProtocolScript.delta * 2;
-        transform.localScale = new Vector3(diameter, diameter, diameter);
-        
         transform.position = target.position;
+
+        float diameter = UAV.GetComponent<SHARKSProtocol>().delta * 2;
+        transform.localScale = new Vector3(diameter, diameter, diameter);   
     }
 }
