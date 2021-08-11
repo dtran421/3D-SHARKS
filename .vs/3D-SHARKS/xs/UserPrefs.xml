@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{E2A1C3C0-641C-EE48-B4F2-391D0F5CC513}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SHARKSProtocol.cs">
+    <Files>
+      <File FileName="Assets/Scripts/PlayerMovementXR.cs" Line="30" Column="1" />
+      <File FileName="Assets/Scripts/SHARKSProtocol.cs" Line="29" Column="83" />
+      <File FileName="Assets/Scripts/TargetMovementXR.cs" Line="29" Column="45" />
+      <File FileName="Assets/Scripts/TrackTarget.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="3D-SHARKS" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="SHARKSProtocol.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="f087cc52-f936-407d-a4c6-7203a12f7550" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

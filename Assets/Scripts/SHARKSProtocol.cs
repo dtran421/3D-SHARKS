@@ -22,6 +22,12 @@ public class SHARKSProtocol : MonoBehaviour
     void Start()
     {
         Vector3 randomPos = new Vector3((Random.value + 10f) * 2f, (Random.value + 10f) * 2f, (Random.value + 10f) * 2f);
+        Collider[] hitColliders = Physics.OverlapSphere(randomPos, transform.localScale.z);
+        while (hitColliders.Length > 1)
+        {
+            randomPos = new Vector3((Random.value + 10f) * 2f, (Random.value + 10f) * 2f, (Random.value + 10f) * 2f);
+            hitColliders = Physics.OverlapSphere(randomPos, transform.localScale.z);
+        }
         self.position = randomPos;
     }
 
@@ -46,7 +52,7 @@ public class SHARKSProtocol : MonoBehaviour
         {
             if (delta <= deltaThreshold)
             {
-                float direction = adversarialDistToTarget - distToTarget > 0 ? 1 : -1;
+                int direction = adversarialDistToTarget - distToTarget > 0 ? 1 : -1;
                 DynamicDistanceEjection(selfPos, direction);
             } else
             {
@@ -226,7 +232,7 @@ public class SHARKSProtocol : MonoBehaviour
         return Mathf.Abs(CalculateIdealDistance() - averageDistanceBetweenAgents);
     }
 
-    void DynamicDistanceEjection(Vector3 selfPos, float direction)
+    void DynamicDistanceEjection(Vector3 selfPos, int direction)
     {
         Debug.Log("eject!");
         transform.LookAt(target);
@@ -248,7 +254,7 @@ public class SHARKSProtocol : MonoBehaviour
     void AdaptDelta(float distToTarget)
     {
         Debug.Log("adapt!");
-        if (distToTarget > transform.localScale.z * deltaThreshold)
+        if (distToTarget > deltaThreshold)
         {
             delta -= gamma;
         }
