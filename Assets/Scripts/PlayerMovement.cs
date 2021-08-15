@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     public float rotationAngle;
     public float rotationSpeed;
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 playerPosition = player.position;
@@ -17,32 +16,32 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey("w"))
         {
             // Debug.Log("move forward!");
-            playerPosition.z += movementDistance * movementSpeed * Time.deltaTime;
+            playerPosition += movementDistance * movementSpeed * Time.deltaTime * transform.forward;
         }
         if (Input.GetKey("s"))
         {
             // Debug.Log("move backward!");
-            playerPosition.z -= movementDistance * movementSpeed * Time.deltaTime;
+            playerPosition -= movementDistance * movementSpeed * Time.deltaTime * transform.forward;
         }
         // move along x-axis
         if (Input.GetKey("a"))
         {
             // Debug.Log("move left!");
-            playerPosition.x -= movementDistance * movementSpeed * Time.deltaTime;
+            playerPosition -= movementDistance * movementSpeed * Time.deltaTime * transform.right;
         }
         if (Input.GetKey("d"))
         {
             // Debug.Log("move right!");
-            playerPosition.x += movementDistance * movementSpeed * Time.deltaTime;
+            playerPosition += movementDistance * movementSpeed * Time.deltaTime * transform.right;
         }
         // move along y-axis
         if (Input.GetKey("space")) {
             // Debug.Log("move up!");
-            playerPosition.y += movementDistance * movementSpeed * Time.deltaTime;
+            playerPosition += movementDistance * movementSpeed * Time.deltaTime * transform.up;
         }
         if (Input.GetKey("left shift")) {
             // Debug.Log("move down!"); 
-            playerPosition.y -= movementDistance * movementSpeed * Time.deltaTime;
+            playerPosition -= movementDistance * movementSpeed * Time.deltaTime * transform.up;
         }
         // rotate around y-axis (yaw)
         if (Input.GetKey("q"))

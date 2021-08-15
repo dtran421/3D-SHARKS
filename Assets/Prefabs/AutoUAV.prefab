@@ -117,7 +117,7 @@ MonoBehaviour:
   dispersionRuleDistance: 3
   dispersionRotation: 10
   dispersionTilt: 20
-  delta: 10
+  delta: 5
   epsilon: 0.1
   deltaThreshold: 5
   gamma: 0.5
