@@ -115,9 +115,9 @@ MonoBehaviour:
   movementSpeed: 1.5
   centerRuleDistance: 4
   dispersionRuleDistance: 3
-  dispersionRotation: 10
+  dispersionRotation: 20
   dispersionTilt: 20
-  delta: 5
-  epsilon: 0.1
-  deltaThreshold: 5
+  delta: 12
+  epsilon: 2
+  deltaThreshold: 12
   gamma: 0.5

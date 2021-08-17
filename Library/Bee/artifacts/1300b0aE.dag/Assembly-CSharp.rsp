@@ -483,6 +483,7 @@
 "Assets/Scripts/BoundaryMovement.cs"
 "Assets/Scripts/PlayerMovement.cs"
 "Assets/Scripts/PlayerMovementXR.cs"
+"Assets/Scripts/RandomMovement.cs"
 "Assets/Scripts/SHARKSProtocol.cs"
 "Assets/Scripts/Simulation.cs"
 "Assets/Scripts/TargetMovement.cs"

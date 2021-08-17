@@ -2,25 +2,47 @@ using UnityEngine;
 
 public class Simulation : MonoBehaviour
 {
+    public string simName;
     public GameObject UAV;
+    public float epochLimit;
 
     private long epoch = -1;
     private SHARKSProtocol sharksProtocol;
 
-    // Start is called before the first frame update
     void Start()
     {
-        string simName = "testing2";
         Debug.Log("*[begin simulation]: " + simName);
         sharksProtocol = UAV.GetComponent<SHARKSProtocol>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         epoch++;
         Debug.Log("*[epoch]: " + epoch);
-        Debug.Log("*[error]: " + CalculateError() + "%");
+        Debug.Log("*[speed]: " + CalculateSpeed());
+        Debug.Log("*[error]: " + CalculateError());
+
+        if (epoch >= epochLimit)
+        {
+            Debug.Break();
+        }
+    }
+
+    float CalculateSpeed()
+    {
+        float cumulativeSpeed = 0;
+        GameObject[] UAVs = GameObject.FindGameObjectsWithTag("UAV");
+
+        foreach (GameObject UAV in UAVs)
+        {
+            if (UAV.name != "PlayerUAV")
+            {
+                float distTraveled = Vector3.Distance(UAV.transform.position, UAV.GetComponent<SHARKSProtocol>().GetLastPosition());
+                cumulativeSpeed += distTraveled / Time.deltaTime;
+            }
+        }
+        int numAgents = UAVs.Length - 1;
+        return cumulativeSpeed / numAgents;
     }
 
     float CalculateError()
@@ -35,16 +57,15 @@ public class Simulation : MonoBehaviour
             {
                 if (distToTarget > sharksProtocol.delta + sharksProtocol.epsilon)
                 {
-                    cumulativeError += (distToTarget - (sharksProtocol.delta + sharksProtocol.epsilon)) / (sharksProtocol.epsilon * 2);
-                } else
+                    cumulativeError += (distToTarget - (sharksProtocol.delta + sharksProtocol.epsilon)) / sharksProtocol.epsilon;
+                } 
+                else
                 {
-                    cumulativeError += (sharksProtocol.delta - sharksProtocol.epsilon - distToTarget) / (sharksProtocol.epsilon * 2);
+                    cumulativeError += (sharksProtocol.delta - sharksProtocol.epsilon - distToTarget) / sharksProtocol.epsilon;
                 }
             }
         }
         int numAgents = UAVs.Length - 1;
-        float averageError = cumulativeError / numAgents;
-
-        return averageError * 100;
+        return cumulativeError / numAgents;
     }
 }
