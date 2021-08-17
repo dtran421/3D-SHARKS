@@ -57,7 +57,7 @@ public class SHARKSProtocol : MonoBehaviour
         {
             if (collider.gameObject.name == "PlayerUAV")
             {
-                // approachingAdversary = true; * uncomment for real code!!
+                approachingAdversary = true;
                 adversaryPos = collider.gameObject.transform.position;
             }
         }
@@ -217,7 +217,7 @@ public class SHARKSProtocol : MonoBehaviour
         return Mathf.Sin(180 / numAgents * Mathf.Deg2Rad) * 2 * delta;
     }
 
-    float CalculateError()
+    public float CalculateError()
     {
         GameObject[] UAVs = GameObject.FindGameObjectsWithTag("UAV");
         GameObject[] legitimateUAVs = new GameObject[UAVs.Length - 1];
@@ -246,7 +246,7 @@ public class SHARKSProtocol : MonoBehaviour
         averageDistBetweenAgents /= legitimateUAVs.Length;
 
         float idealDist = CalculateIdealDistance();
-        return Mathf.Abs(averageDistBetweenAgents - idealDist) /  idealDist;
+        return Mathf.Abs(averageDistBetweenAgents - idealDist) / idealDist; // check this!!
     }
 
     void DynamicDistanceEjection(Vector3 selfPos)
