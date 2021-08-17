@@ -17,24 +17,36 @@ public class SHARKSProtocol : MonoBehaviour
 
     public float deltaThreshold;
     public float gamma; // radius adaptation increment
-    private float adversaryY;
+    private Vector3 adversaryPos;
+
+    private Vector3 lastPos;
 
     void Start()
     {
-        Vector3 randomPos = new Vector3(Random.Range(-20f, 20f), Random.Range(-20f, 20f), Random.Range(-20f, 20f));
+        Vector3 randomPos = GenerateRandomPosition();
         Collider[] hitColliders = Physics.OverlapSphere(randomPos, transform.localScale.z);
         while (hitColliders.Length > 1)
         {
-            randomPos = new Vector3(Random.Range(-20f, 20f), Random.Range(-20f, 20f), Random.Range(-20f, 20f));
+            randomPos = GenerateRandomPosition();
             hitColliders = Physics.OverlapSphere(randomPos, transform.localScale.z);
         }
         self.position = randomPos;
+        lastPos = randomPos;
+    }
+
+    public Vector3 GenerateRandomPosition()
+    {
+        float lowerBound = -30f;
+        float upperBound = 30f;
+        return new Vector3(Random.Range(lowerBound, upperBound), Random.Range(lowerBound, upperBound), Random.Range(lowerBound, upperBound));
     }
 
     void Update()
     {
         Vector3 selfPos = transform.position;
         Vector3 targetPos = target.position;
+
+        lastPos = selfPos;
 
         float distToTarget = Vector3.Distance(targetPos, selfPos);
         // Debug.Log(distToTarget);
@@ -45,22 +57,22 @@ public class SHARKSProtocol : MonoBehaviour
         {
             if (collider.gameObject.name == "PlayerUAV")
             {
-                approachingAdversary = true;
-                Vector3 adversaryPos = collider.gameObject.transform.position;
-                adversaryY = adversaryPos.y;
+                // approachingAdversary = true; * uncomment for real code!!
+                adversaryPos = collider.gameObject.transform.position;
             }
         }
         if (IsNearestObjectAdversarial(selfPos) && approachingAdversary)
         {
             if (delta <= deltaThreshold)
             {
-                int direction = adversaryY <= selfPos.y ? 1 : -1;
-                DynamicDistanceEjection(selfPos, direction);
-            } else if (InsideStabilityRegion(distToTarget, epsilon))
+                DynamicDistanceEjection(selfPos);
+            } 
+            else if (InsideStabilityRegion(distToTarget, epsilon))
             {
                 AdaptDelta(distToTarget);
             }
-        } else
+        } 
+        else
         {
             CenterRule(selfPos, distToTarget);
             selfPos = transform.position;
@@ -219,40 +231,42 @@ public class SHARKSProtocol : MonoBehaviour
             }
         }
 
-        float averageDistanceBetweenAgents = 0;
+        float averageDistBetweenAgents = 0;
         for (int i = 0; i < legitimateUAVs.Length; i++)
         {
             if (i == legitimateUAVs.Length - 1)
             {
-                averageDistanceBetweenAgents += Vector3.Distance(legitimateUAVs[i].transform.position, legitimateUAVs[0].transform.position);
+                averageDistBetweenAgents += Vector3.Distance(legitimateUAVs[i].transform.position, legitimateUAVs[0].transform.position);
             }
             else
             {
-                averageDistanceBetweenAgents += Vector3.Distance(legitimateUAVs[i].transform.position, legitimateUAVs[i + 1].transform.position);
+                averageDistBetweenAgents += Vector3.Distance(legitimateUAVs[i].transform.position, legitimateUAVs[i + 1].transform.position);
             }
         }
-        averageDistanceBetweenAgents /= legitimateUAVs.Length;
+        averageDistBetweenAgents /= legitimateUAVs.Length;
 
-        return Mathf.Abs(CalculateIdealDistance() - averageDistanceBetweenAgents);
+        float idealDist = CalculateIdealDistance();
+        return Mathf.Abs(averageDistBetweenAgents - idealDist) /  idealDist;
     }
 
-    void DynamicDistanceEjection(Vector3 selfPos, int direction)
+    void DynamicDistanceEjection(Vector3 selfPos)
     {
-        Debug.Log("eject!");
-        transform.LookAt(target);
+        // Debug.Log("eject!");
+        transform.LookAt(adversaryPos);
 
+        Vector3 ejectVector = -transform.forward + -transform.right;
         float ejectDistance = delta / 2 * Mathf.Pow(CalculateError(), 1 / 4);
-        selfPos.x += direction * ejectDistance * transform.up.x * movementSpeed * Time.deltaTime;
-        selfPos.y += direction * ejectDistance * transform.up.y * movementSpeed * Time.deltaTime;
-        selfPos.z += direction * ejectDistance * transform.up.z * movementSpeed * Time.deltaTime;
+        selfPos.x += ejectVector.x * ejectDistance * movementSpeed * Time.deltaTime;
+        selfPos.y += ejectVector.y * ejectDistance * movementSpeed * Time.deltaTime;
+        selfPos.z += ejectVector.z * ejectDistance * movementSpeed * Time.deltaTime;
 
         // collision detection
         Collider[] hitColliders = Physics.OverlapSphere(selfPos, transform.localScale.z / 2);
         if (hitColliders.Length <= 1)
         {
             transform.position = selfPos;
-            Debug.DrawRay(selfPos, new Vector3(direction * ejectDistance * transform.up.x * movementSpeed, direction * ejectDistance * transform.up.y * movementSpeed, direction * ejectDistance * transform.up.z * movementSpeed), Color.blue);
         }
+        Debug.DrawRay(selfPos, new Vector3(ejectVector.x * ejectDistance * movementSpeed, ejectVector.y * ejectDistance * movementSpeed, ejectVector.z * ejectDistance * movementSpeed), Color.blue);
     }
 
     void AdaptDelta(float distToTarget)
@@ -262,5 +276,10 @@ public class SHARKSProtocol : MonoBehaviour
         {
             delta -= gamma;
         }
+    }
+
+    public Vector3 GetLastPosition()
+    {
+        return lastPos;
     }
 }
